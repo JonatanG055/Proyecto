@@ -110,7 +110,10 @@
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: {
+      type: String,
+      required: true  // Hace que la prop sea obligatoria
+    }
   }
 }
 </script>

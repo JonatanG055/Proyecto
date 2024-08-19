@@ -1,13 +1,23 @@
+// src/controllers/taskController.ts
+
 import { Request, Response } from 'express';
 import { createTask, deleteTask, getAllTasks, updateTask } from '../services/taskService';
-import { Task } from '../models/task';
+import { Priority, Task } from '../models/task';
 import { v4 as uuidv4 } from 'uuid';
+
+interface NewTask {
+    title: string;
+    description: string;
+    priority: Priority;
+    completed?: boolean;
+}
 
 export const getTasks = async (req: Request, res: Response): Promise<void> => {
     try {
         const tasks = await getAllTasks();
         res.json(tasks);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -20,20 +30,23 @@ export const addTask = async (req: Request, res: Response): Promise<void> => {
         return;
     }
 
-    const newTask: Task = {
-        id: uuidv4(),
+    if (priority && !Object.values(Priority).includes(priority)) {
+        res.status(400).json({ message: 'Invalid priority value' });
+        return;
+    }
+
+    const newTask: NewTask = {
         title,
         description,
         completed: false,
-        priority: priority || 'Low',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        priority: priority || Priority.Low,
     };
 
     try {
         const createdTask = await createTask(newTask);
         res.status(201).json(createdTask);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -41,6 +54,11 @@ export const addTask = async (req: Request, res: Response): Promise<void> => {
 export const updateTaskById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     const { title, description, completed, priority } = req.body;
+
+    if (priority && !Object.values(Priority).includes(priority)) {
+        res.status(400).json({ message: 'Invalid priority value' });
+        return;
+    }
 
     try {
         const updatedTask = await updateTask(id, { title, description, completed, priority, updatedAt: new Date() });
@@ -50,6 +68,7 @@ export const updateTaskById = async (req: Request, res: Response): Promise<void>
             res.status(404).json({ message: 'Task not found' });
         }
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -64,6 +83,7 @@ export const deleteTaskById = async (req: Request, res: Response): Promise<void>
             res.status(404).json({ message: 'Task not found' });
         }
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

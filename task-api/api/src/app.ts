@@ -16,7 +16,7 @@ const swaggerOptions = {
       description: 'API para gestionar tareas',
     },
   },
-  apis: ['./routes/*.js'], // Ruta a tus archivos de rutas donde se documentan los endpoints
+  apis: ['./routes/*.ts'], // Ruta a tus archivos de rutas donde se documentan los endpoints
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);

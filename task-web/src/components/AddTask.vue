@@ -16,10 +16,10 @@
         :items="['Low', 'Medium', 'High']"
         label="Priority"
       />
-      <v-btn type="submit" color="primary">
+      <v-btn color="primary" type="submit">
         Save
       </v-btn>
-      <v-btn @click="goBack" color="secondary">
+      <v-btn color="secondary" @click="goBack">
         Cancel
       </v-btn>
     </v-form>

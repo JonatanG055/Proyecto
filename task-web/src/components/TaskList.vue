@@ -6,12 +6,27 @@
           <v-list-item-content>
             <v-list-item-title>{{ task.title }}</v-list-item-title>
             <v-list-item-subtitle>{{ task.description }}</v-list-item-subtitle>
-            <v-btn @click="editTask(task.id)" color="primary">Edit</v-btn>
-            <v-btn @click="deleteTask(task.id)" color="red">Delete</v-btn>
+            <v-btn
+              color="primary"
+              @click="editTask(task.id)"
+            >
+              Edit
+            </v-btn>
+            <v-btn
+              color="red"
+              @click="deleteTask(task.id)"
+            >
+              Delete
+            </v-btn>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
-      <v-btn @click="createTask" color="primary">Add Task</v-btn>
+      <v-btn
+        color="primary"
+        @click="createTask"
+      >
+        Add Task
+      </v-btn>
     </v-list>
   </v-container>
 </template>

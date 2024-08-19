@@ -1,15 +1,31 @@
+// src/models/task.ts
+
+import mongoose, { Document, Schema } from 'mongoose';
+
 export enum Priority {
     Low = 'Low',
     Medium = 'Medium',
-    High = 'High'
+    High = 'High',
 }
 
-export interface Task {
-    id: string;                // Identificador único de la tarea
-    title: string;             // Título de la tarea
-    description: string;       // Descripción de la tarea
-    completed: boolean;        // Estado de la tarea (completada o no)
-    priority?: Priority;       // Nivel de prioridad (opcional)
-    createdAt?: Date;          // Fecha de creación (opcional)
-    updatedAt?: Date;          // Fecha de última actualización (opcional)
+export interface Task extends Document {
+    title: string;
+    description: string;
+    completed: boolean;
+    priority: Priority;
+    createdAt: Date;
+    updatedAt: Date;
 }
+
+const taskSchema: Schema = new Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    completed: { type: Boolean, default: false },
+    priority: { type: String, enum: Object.values(Priority), default: Priority.Low },
+}, {
+    timestamps: true, // Automatically adds createdAt and updatedAt
+});
+
+const TaskModel = mongoose.model<Task>('Task', taskSchema);
+
+export default TaskModel;

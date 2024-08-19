@@ -1,4 +1,3 @@
-// src/routes/taskRoutes.ts
 import { Router } from 'express';
 import { getTasks, addTask, updateTaskById, deleteTaskById } from '../controllers/taskController';
 
@@ -27,7 +26,7 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/Task'
  */
-router.get('/tasks', getTasks);
+router.get('/', getTasks);
 
 /**
  * @swagger
@@ -45,7 +44,7 @@ router.get('/tasks', getTasks);
  *       201:
  *         description: Tarea creada exitosamente
  */
-router.post('/tasks', addTask);
+router.post('/', addTask);
 
 /**
  * @swagger
@@ -72,7 +71,7 @@ router.post('/tasks', addTask);
  *       404:
  *         description: Tarea no encontrada
  */
-router.put('/tasks/:id', updateTaskById);
+router.put('/:id', updateTaskById);
 
 /**
  * @swagger
@@ -88,11 +87,11 @@ router.put('/tasks/:id', updateTaskById);
  *           type: string
  *         description: ID de la tarea a eliminar
  *     responses:
- *       200:
+ *       204:
  *         description: Tarea eliminada exitosamente
  *       404:
  *         description: Tarea no encontrada
  */
-router.delete('/tasks/:id', deleteTaskById);
+router.delete('/:id', deleteTaskById);
 
 export default router;
