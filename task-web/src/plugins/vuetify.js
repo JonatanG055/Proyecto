@@ -1,5 +1,5 @@
 import { createVuetify } from 'vuetify';
-import { VApp, VContainer, VList, VListItem, VListItemTitle, VListItemSubtitle, VBtn } from 'vuetify/components';
+import { VApp, VContainer, VList, VListItem, VListItemContent, VListItemTitle, VListItemSubtitle, VBtn } from 'vuetify/components';
 import 'vuetify/styles';
 
 export default createVuetify({
@@ -8,6 +8,7 @@ export default createVuetify({
     VContainer,
     VList,
     VListItem,
+    VListItemContent,
     VListItemTitle,
     VListItemSubtitle,
     VBtn,

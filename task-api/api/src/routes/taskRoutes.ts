@@ -7,14 +7,14 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Tasks
- *   description: API para gestionar tareas
+ *   description: API para gestionar tareas.
  */
 
 /**
  * @swagger
  * /tasks:
  *   get:
- *     summary: Obtiene la lista de tareas
+ *     summary: Obtener todas las tareas
  *     tags: [Tasks]
  *     responses:
  *       200:
@@ -24,7 +24,17 @@ const router = Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Task'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     description: ID de la tarea
+ *                   title:
+ *                     type: string
+ *                     description: Título de la tarea
+ *                   description:
+ *                     type: string
+ *                     description: Descripción de la tarea
  */
 router.get('/', getTasks);
 
@@ -32,17 +42,45 @@ router.get('/', getTasks);
  * @swagger
  * /tasks:
  *   post:
- *     summary: Crea una nueva tarea
+ *     summary: Agregar una nueva tarea
  *     tags: [Tasks]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Título de la tarea
+ *               description:
+ *                 type: string
+ *                 description: Descripción de la tarea
+ *               priority:
+ *                 type: string
+ *                 enum: [Low, Medium, High]
+ *                 description: Prioridad de la tarea
  *     responses:
  *       201:
- *         description: Tarea creada exitosamente
+ *         description: Tarea creada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: ID de la tarea creada
+ *                 title:
+ *                   type: string
+ *                   description: Título de la tarea
+ *                 description:
+ *                   type: string
+ *                   description: Descripción de la tarea
+ *                 priority:
+ *                   type: string
+ *                   description: Prioridad de la tarea
  */
 router.post('/', addTask);
 
@@ -50,26 +88,58 @@ router.post('/', addTask);
  * @swagger
  * /tasks/{id}:
  *   put:
- *     summary: Actualiza una tarea por su ID
+ *     summary: Actualizar una tarea existente por ID
  *     tags: [Tasks]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID de la tarea a actualizar
  *         schema:
  *           type: string
- *         description: ID de la tarea a actualizar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Título de la tarea
+ *               description:
+ *                 type: string
+ *                 description: Descripción de la tarea
+ *               priority:
+ *                 type: string
+ *                 enum: [Low, Medium, High]
+ *                 description: Prioridad de la tarea
+ *               completed:
+ *                 type: boolean
+ *                 description: Estado de la tarea
  *     responses:
  *       200:
- *         description: Tarea actualizada exitosamente
- *       404:
- *         description: Tarea no encontrada
+ *         description: Tarea actualizada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: ID de la tarea actualizada
+ *                 title:
+ *                   type: string
+ *                   description: Título de la tarea
+ *                 description:
+ *                   type: string
+ *                   description: Descripción de la tarea
+ *                 priority:
+ *                   type: string
+ *                   description: Prioridad de la tarea
+ *                 completed:
+ *                   type: boolean
+ *                   description: Estado de la tarea
  */
 router.put('/:id', updateTaskById);
 
@@ -77,20 +147,18 @@ router.put('/:id', updateTaskById);
  * @swagger
  * /tasks/{id}:
  *   delete:
- *     summary: Elimina una tarea por su ID
+ *     summary: Eliminar una tarea existente por ID
  *     tags: [Tasks]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID de la tarea a eliminar
  *         schema:
  *           type: string
- *         description: ID de la tarea a eliminar
  *     responses:
  *       204:
- *         description: Tarea eliminada exitosamente
- *       404:
- *         description: Tarea no encontrada
+ *         description: Tarea eliminada
  */
 router.delete('/:id', deleteTaskById);
 

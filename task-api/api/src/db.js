@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-// Usa tu URI de MongoDB Atlas aquí
 const mongoURI = 'mongodb+srv://jonatan:123@dbd.r6k7h5w.mongodb.net/taskDB?retryWrites=true&w=majority';
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

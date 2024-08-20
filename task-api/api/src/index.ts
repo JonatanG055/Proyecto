@@ -1,19 +1,12 @@
-import express from 'express';
-import connectDB from './db'; // Asegúrate de que la ruta a db.ts es correcta
-import taskRoutes from './routes/taskRoutes';
+import app from './app';
+import connectDB from './db';
 
-const app = express();
-
-// Middleware para parsear JSON
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 
 // Conectar a MongoDB
 connectDB();
 
-// Rutas
-app.use('/tasks', taskRoutes);
-
-const PORT = process.env.PORT || 3000;
+// Inicia el servidor
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

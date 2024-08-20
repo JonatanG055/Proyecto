@@ -30,7 +30,7 @@
       "src/**/*.d.ts",
       "src/**/*.tsx",
       "src/**/*.vue"
-    ],
+, "src/services/axios.js", "src/main.js"    ],
     "exclude": [
       "node_modules"
     ]

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors")); // Importa el paquete cors
+const cors_1 = __importDefault(require("cors"));
 const taskRoutes_1 = __importDefault(require("./routes/taskRoutes"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
@@ -19,7 +19,7 @@ const swaggerOptions = {
             description: 'API para gestionar tareas',
         },
     },
-    apis: ['./routes/*.ts'], // Ruta a tus archivos de rutas donde se documentan los endpoints
+    apis: ['./routes/taskRoutes.ts'], // Ruta a tus archivos de rutas donde se documentan los endpoints
 };
 const swaggerDocs = (0, swagger_jsdoc_1.default)(swaggerOptions);
 // Configura Swagger UI para servir la documentación
@@ -35,5 +35,6 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Servidor funcionando correctamente.');
 });
-app.use('/api', taskRoutes_1.default);
+// Usa las rutas de tareas con el prefijo '/tasks'
+app.use('/tasks', taskRoutes_1.default);
 exports.default = app;

@@ -15,20 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.updateTask = exports.createTask = exports.getAllTasks = void 0;
 const task_1 = __importDefault(require("../models/task"));
 const getAllTasks = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield task_1.default.find();
+    return task_1.default.find();
 });
 exports.getAllTasks = getAllTasks;
 const createTask = (task) => __awaiter(void 0, void 0, void 0, function* () {
-    const newTask = new task_1.default(task);
-    return yield newTask.save();
+    return task_1.default.create(task);
 });
 exports.createTask = createTask;
-const updateTask = (id, taskUpdates) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield task_1.default.findByIdAndUpdate(id, taskUpdates, { new: true });
+const updateTask = (id, update) => __awaiter(void 0, void 0, void 0, function* () {
+    return task_1.default.findByIdAndUpdate(id, update, { new: true });
 });
 exports.updateTask = updateTask;
 const deleteTask = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield task_1.default.findByIdAndDelete(id);
-    return result != null;
+    return !!result;
 });
 exports.deleteTask = deleteTask;

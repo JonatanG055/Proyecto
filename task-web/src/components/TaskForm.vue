@@ -15,70 +15,62 @@
       :items="['Low', 'Medium', 'High']"
       label="Priority"
     />
-    <v-btn type="submit">
+    <v-btn color="primary" type="submit">
       Save
+    </v-btn>
+    <v-btn color="secondary" @click="goBack">
+      Cancel
     </v-btn>
   </v-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default defineComponent({
   props: {
-    taskId: {
-      type: String,
-      default: ''
+    initialTask: {
+      type: Object,
+      default: () => ({
+        title: '',
+        description: '',
+        priority: 'Low',
+        completed: false
+      })
     }
   },
   setup(props) {
-    const task = ref({
-      title: '',
-      description: '',
-      priority: 'Low',
-      completed: false
-    });
-
-    const fetchTask = async () => {
-      if (props.taskId) {
-        try {
-          const response = await axios.get(`http://localhost:3000/api/tasks/${props.taskId}`);
-          task.value = response.data;
-        } catch (error) {
-          console.error('Error fetching task:', error);
-        }
-      }
-    };
+    const task = ref(props.initialTask);
+    const router = useRouter();
 
     const submitForm = async () => {
       try {
-        if (props.taskId) {
-          await axios.put(`http://localhost:3000/api/tasks/${props.taskId}`, task.value);
+        const id = router.currentRoute.value.params.id as string;
+        if (id) {
+          await axios.put(`http://localhost:3000/api/tasks/${id}`, task.value);
         } else {
           await axios.post('http://localhost:3000/api/tasks', task.value);
         }
-        // Emitir un evento para informar que la tarea se guardó
-        task.value = {
-          title: '',
-          description: '',
-          priority: 'Low',
-          completed: false
-        };
+        router.push('/'); // Redirect to task list after saving
       } catch (error) {
         console.error('Error submitting form:', error);
       }
     };
 
-    onMounted(() => {
-      fetchTask();
-    });
+    const goBack = () => {
+      router.push('/'); // Redirect to task list
+    };
 
-    return { task, submitForm };
+    return { task, submitForm, goBack };
   }
 });
 </script>
 
 <style scoped>
-/* Agrega aquí los estilos para TaskForm */
+.v-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
 </style>

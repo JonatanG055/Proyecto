@@ -1,5 +1,3 @@
-// src/models/task.ts
-
 import mongoose, { Document, Schema } from 'mongoose';
 
 export enum Priority {
@@ -22,9 +20,7 @@ const taskSchema: Schema = new Schema({
     description: { type: String, required: true },
     completed: { type: Boolean, default: false },
     priority: { type: String, enum: Object.values(Priority), default: Priority.Low },
-}, {
-    timestamps: true, // Automatically adds createdAt and updatedAt
-});
+}, { timestamps: true });
 
 const TaskModel = mongoose.model<Task>('Task', taskSchema);
 

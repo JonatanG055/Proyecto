@@ -1,5 +1,4 @@
 "use strict";
-// src/models/task.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -37,8 +36,6 @@ const taskSchema = new mongoose_1.Schema({
     description: { type: String, required: true },
     completed: { type: Boolean, default: false },
     priority: { type: String, enum: Object.values(Priority), default: Priority.Low },
-}, {
-    timestamps: true, // Automatically adds createdAt and updatedAt
-});
+}, { timestamps: true });
 const TaskModel = mongoose_1.default.model('Task', taskSchema);
 exports.default = TaskModel;

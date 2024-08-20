@@ -1,9 +1,6 @@
-// src/controllers/taskController.ts
-
 import { Request, Response } from 'express';
 import { createTask, deleteTask, getAllTasks, updateTask } from '../services/taskService';
-import { Priority, Task } from '../models/task';
-import { v4 as uuidv4 } from 'uuid';
+import { Priority } from '../models/task';
 
 interface NewTask {
     title: string;
