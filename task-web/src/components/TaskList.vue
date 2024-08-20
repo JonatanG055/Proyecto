@@ -21,7 +21,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import apiClient from '../services/axios'; // Asegúrate de que este archivo existe
+import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -31,7 +31,7 @@ export default {
 
     const fetchTasks = async () => {
       try {
-        const response = await apiClient.get('/tasks');
+        const response = await axios.get('http://localhost:3000/tasks');
         tasks.value = response.data;
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -40,19 +40,19 @@ export default {
 
     const deleteTask = async (id) => {
       try {
-        await apiClient.delete(`/tasks/${id}`);
-        fetchTasks(); // Reload tasks after deletion
+        await axios.delete(`http://localhost:3000/tasks/${id}`);
+        fetchTasks(); // Recargar tareas después de eliminar
       } catch (error) {
         console.error('Error deleting task:', error);
       }
     };
 
     const editTask = (id) => {
-      router.push(`/task/edit/${id}`);
+      router.push(`/task/edit/${id}`); // Redirige a la página de edición
     };
 
     const createTask = () => {
-      router.push('/task/add');
+      router.push('/task/add'); // Redirige a la página de creación
     };
 
     onMounted(() => {
@@ -65,5 +65,5 @@ export default {
 </script>
 
 <style scoped>
-/* Optional styles for the task list */
+/* Estilos opcionales para la lista de tareas */
 </style>

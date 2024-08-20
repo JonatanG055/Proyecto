@@ -23,6 +23,14 @@
         Cancel
       </v-btn>
     </v-form>
+    <!-- Mostrar mensaje de error si hay uno -->
+    <v-alert
+      v-if="error"
+      type="error"
+      dismissible
+    >
+      {{ error }}
+    </v-alert>
   </v-container>
 </template>
 
@@ -40,21 +48,23 @@ export default defineComponent({
       completed: false
     });
     const router = useRouter();
+    const error = ref<string | null>(null);
 
     const submitForm = async () => {
       try {
-        await axios.post('http://localhost:3000/api/tasks', task.value);
-        router.push('/'); // Redirect to task list after saving
-      } catch (error) {
-        console.error('Error submitting form:', error);
+        await axios.post('http://localhost:3000/tasks', task.value);
+        router.push('/'); // Redirige a la lista de tareas después de guardar
+      } catch (err) {
+        console.error('Error submitting form:', err);
+        error.value = 'Failed to save task. Please try again.';
       }
     };
 
     const goBack = () => {
-      router.push('/'); // Redirect to task list
+      router.push('/'); // Redirige a la lista de tareas
     };
 
-    return { task, submitForm, goBack };
+    return { task, submitForm, goBack, error };
   }
 });
 </script>
@@ -65,3 +75,4 @@ export default defineComponent({
   margin: 0 auto;
 }
 </style>
+

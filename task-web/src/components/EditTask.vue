@@ -1,28 +1,13 @@
 <template>
   <v-container>
     <v-form @submit.prevent="submitForm">
-      <v-text-field
-        v-model="task.title"
-        label="Title"
-        required
-      />
-      <v-textarea
-        v-model="task.description"
-        label="Description"
-        required
-      />
-      <v-select
-        v-model="task.priority"
-        :items="['Low', 'Medium', 'High']"
-        label="Priority"
-      />
-      <v-btn color="primary" type="submit" class="mr-2">
-        Save
-      </v-btn>
-      <v-btn color="secondary" @click="goBack">
-        Cancel
-      </v-btn>
+      <v-text-field v-model="task.title" label="Title" required />
+      <v-textarea v-model="task.description" label="Description" required />
+      <v-select v-model="task.priority" :items="['Low', 'Medium', 'High']" label="Priority" />
+      <v-btn color="primary" type="submit">Save</v-btn>
+      <v-btn color="secondary" @click="goBack">Cancel</v-btn>
     </v-form>
+    <v-alert v-if="error" type="error" dismissible>{{ error }}</v-alert>
   </v-container>
 </template>
 
@@ -41,15 +26,17 @@ export default defineComponent({
       priority: 'Low',
       completed: false
     });
+    const error = ref<string | null>(null);
 
     const fetchTask = async () => {
       const id = route.params.id as string;
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/tasks/${id}`);
+          const response = await axios.get(`http://localhost:3000/tasks/${id}`);
           task.value = response.data;
-        } catch (error) {
-          console.error('Error fetching task:', error);
+        } catch (err) {
+          console.error('Error fetching task:', err);
+          error.value = 'Failed to fetch task. Please try again.';
         }
       }
     };
@@ -58,25 +45,28 @@ export default defineComponent({
       const id = route.params.id as string;
       try {
         if (id) {
-          await axios.put(`http://localhost:3000/api/tasks/${id}`, task.value);
+          await axios.put(`http://localhost:3000/tasks/${id}`, task.value);
         } else {
-          await axios.post('http://localhost:3000/api/tasks', task.value);
+          await axios.post('http://localhost:3000/tasks', task.value);
         }
-        router.push('/'); // Redirect to task list after saving
-      } catch (error) {
-        console.error('Error submitting form:', error);
+        router.push('/'); // Redirige a la lista de tareas después de guardar
+      } catch (err) {
+        console.error('Error submitting form:', err);
+        error.value = 'Failed to save task. Please try again.';
       }
     };
 
     const goBack = () => {
-      router.push('/'); // Redirect to task list
+      router.push('/'); // Redirige a la lista de tareas
     };
 
     onMounted(() => {
-      fetchTask();
+      if (route.params.id) {
+        fetchTask(); // Carga la tarea si hay un ID en la ruta
+      }
     });
 
-    return { task, submitForm, goBack };
+    return { task, submitForm, goBack, error };
   }
 });
 </script>
